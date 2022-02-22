@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <main class="container p-5">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Name</th>
+                    <th>Shares</th>
+                    <th>Price</th>
+                    <th>TOTAL</th>
+                </tr>
+            </thead>
+                {% set total = namespace(tot=rows.cash) %}
+
+            <tbody>
+                {% for row in listDicStocks %}
+                    <tr>
+                        <td>{{row.symbol}}</td>
+                        <td>{{row.name}}</td>
+                        <td>{{row.shares}}</td>
+                        <td>${{row.price}}</td>
+                        <td>${{row.price * row.shares}}</td>
+                        {% set total.tot = total.tot + row.price * row.shares %}
+
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td>CASH</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>${{rows.cash}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4"></td>
+                    <td><b>${{'%0.2f' %total.tot}}</b></td>
+                </tr>
+            </tfoot>
+        </table>
+
+    </main>
+{% endblock %}
